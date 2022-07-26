@@ -74,12 +74,20 @@ function moveSnake() {
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowUp') {
-        currentDirection = 'up';
+        if (snakeTailMotionStack[snakeLength - 1] !== 'upShrink') {
+            currentDirection = 'up';
+        }
     } else if (e.key === 'ArrowDown') {
-        currentDirection = 'down';
+        if (snakeTailMotionStack[snakeLength - 1] !== 'downShrink') {
+            currentDirection = 'down';
+        }
     } else if (e.key === 'ArrowLeft') {
-        currentDirection = 'left';
+        if (snakeTailMotionStack[snakeLength - 1] !== 'leftShrink') {
+            currentDirection = 'left';
+        }
     } else if (e.key === 'ArrowRight') {
-        currentDirection = 'right';
+        if (snakeTailMotionStack[snakeLength - 1] !== 'rightShrink') {
+            currentDirection = 'right';
+        }
     }
 })
