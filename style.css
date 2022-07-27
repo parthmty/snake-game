@@ -25,6 +25,10 @@ main {
     border: 2px solid red;
 }
 
+.food {
+    background-color: blueviolet;
+}
+
 
 
 /* Snake Configs */

@@ -102,9 +102,14 @@ let snakeLength = 4;
 let snakeTailMotionStack = ['rightShrink', 'rightShrink', 'rightShrink', 'rightShrink'];
 let snakeBoxIndexStack = [106, 107, 108, 109];
 let currentDirection = 'right';
+let foodCount = 0;
+let foodBoxIndex = 0;
 
 setInterval(() => {
-    console.log(snakeBoxIndexStack);
+    if (!foodCount) {
+        generateFood();
+        foodCount++;
+    }
     moveSnake();
 }, 200);
 
@@ -120,12 +125,20 @@ function moveSnake() {
         }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('upGrow');
+        if (foodBoxIndex === nextSnakeBoxIndex) {
+            foodCount = 0;
+            snakeLength++;
 
-        snakeTailMotionStack.push('downShrink');
-        snakeTailMotionStack[snakeLength - 1] = 'downShrink';
-        snakeTailMotionStack.shift();
-        snakeBoxIndexStack.push(nextSnakeBoxIndex);
-        snakeBoxIndexStack.shift();
+            snakeTailMotionStack.push('downShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'downShrink';
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+        } else {
+            snakeTailMotionStack.push('downShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'downShrink';
+            snakeTailMotionStack.shift();
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+            snakeBoxIndexStack.shift();
+        }
     } else if (currentDirection === 'down') {
         snakeBoxes[snakeBoxIndexStack[0]].removeAttribute('class');
         snakeBoxes[snakeBoxIndexStack[0]].classList.add(snakeTailMotionStack[0]);
@@ -136,12 +149,20 @@ function moveSnake() {
         }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('downGrow');
+        if (foodBoxIndex === nextSnakeBoxIndex) {
+            foodCount = 0;
+            snakeLength++;
 
-        snakeTailMotionStack.push('upShrink');
-        snakeTailMotionStack[snakeLength - 1] = 'upShrink';
-        snakeTailMotionStack.shift();
-        snakeBoxIndexStack.push(nextSnakeBoxIndex);
-        snakeBoxIndexStack.shift();
+            snakeTailMotionStack.push('upShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'upShrink';
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+        } else {
+            snakeTailMotionStack.push('upShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'upShrink';
+            snakeTailMotionStack.shift();
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+            snakeBoxIndexStack.shift();
+        }
     } else if (currentDirection === 'left') {
         snakeBoxes[snakeBoxIndexStack[0]].removeAttribute('class');
         snakeBoxes[snakeBoxIndexStack[0]].classList.add(snakeTailMotionStack[0]);
@@ -152,12 +173,20 @@ function moveSnake() {
         }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('leftGrow');
+        if (foodBoxIndex === nextSnakeBoxIndex) {
+            foodCount = 0;
+            snakeLength++;
 
-        snakeTailMotionStack.push('rightShrink');
-        snakeTailMotionStack[snakeLength - 1] = 'rightShrink';
-        snakeTailMotionStack.shift();
-        snakeBoxIndexStack.push(nextSnakeBoxIndex);
-        snakeBoxIndexStack.shift();
+            snakeTailMotionStack.push('rightShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'rightShrink';
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+        } else {
+            snakeTailMotionStack.push('rightShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'rightShrink';
+            snakeTailMotionStack.shift();
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+            snakeBoxIndexStack.shift();
+        }
     } else if (currentDirection === 'right') {
         snakeBoxes[snakeBoxIndexStack[0]].removeAttribute('class');
         snakeBoxes[snakeBoxIndexStack[0]].classList.add(snakeTailMotionStack[0]);
@@ -168,13 +197,30 @@ function moveSnake() {
         }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('rightGrow');
+        if (foodBoxIndex === nextSnakeBoxIndex) {
+            foodCount = 0;
+            snakeLength++;
 
-        snakeTailMotionStack.push('leftShrink');
-        snakeTailMotionStack[snakeLength - 1] = 'leftShrink';
-        snakeTailMotionStack.shift();
-        snakeBoxIndexStack.push(nextSnakeBoxIndex);
-        snakeBoxIndexStack.shift();
+            snakeTailMotionStack.push('leftShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'leftShrink';
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+        } else {
+            snakeTailMotionStack.push('leftShrink');
+            snakeTailMotionStack[snakeLength - 1] = 'leftShrink';
+            snakeTailMotionStack.shift();
+            snakeBoxIndexStack.push(nextSnakeBoxIndex);
+            snakeBoxIndexStack.shift();
+        }
     }
+}
+
+function generateFood() {
+    let randomNumber = Math.floor(Math.random() * 400);
+    while (snakeBoxIndexStack.includes(randomNumber)) {
+        randomNumber = Math.floor(Math.random() * 400);
+    }
+    foodBoxIndex = randomNumber;
+    snakeBoxes[randomNumber].classList.add('food');
 }
 
 
