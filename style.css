@@ -14,6 +14,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 main {
@@ -22,21 +23,35 @@ main {
     grid-template-rows: repeat(20, 1fr);
     width: 400px;
     height: 400px;
-    border: 2px solid red;
+    border: 2px solid rgb(94, 184, 11);
+    background-color: rgb(174, 244, 165);
 }
 
 .food {
-    background-color: blueviolet;
+    background-color: rgb(248, 74, 74);
+    border-radius: 500px;
 }
 
+body {
+    background-color: aquamarine;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: rgb(18, 143, 105);
+    padding-bottom: 15px;
+}
 
 
 /* Snake Configs */
 
 :root {
     --snake-box-size: 20px;
-    --snake-speed: 190ms;
+    --snake-speed: 140ms;
     --snake-movement: linear;
+    --snake-color: rgb(37, 125, 233);
 }
 
 
@@ -80,80 +95,80 @@ main {
 
 @keyframes rightGrow {
     0% {
-        border-left: 0px solid limegreen;
+        border-left: 0px solid var(--snake-color);
     }
 
     100% {
-        border-left: var(--snake-box-size) solid limegreen;
+        border-left: var(--snake-box-size) solid var(--snake-color);
     }
 }
 
 @keyframes leftGrow {
     0% {
-        border-right: 0px solid limegreen;
+        border-right: 0px solid var(--snake-color);
     }
 
     100% {
-        border-right: var(--snake-box-size) solid limegreen;
+        border-right: var(--snake-box-size) solid var(--snake-color);
     }
 }
 
 @keyframes upGrow {
     0% {
-        border-bottom: 0px solid limegreen;
+        border-bottom: 0px solid var(--snake-color);
     }
 
     100% {
-        border-bottom: var(--snake-box-size) solid limegreen;
+        border-bottom: var(--snake-box-size) solid var(--snake-color);
     }
 }
 
 @keyframes downGrow {
     0% {
-        border-top: 0px solid limegreen;
+        border-top: 0px solid var(--snake-color);
     }
 
     100% {
-        border-top: var(--snake-box-size) solid limegreen;
+        border-top: var(--snake-box-size) solid var(--snake-color);
     }
 }
 
 @keyframes rightShrink {
     0% {
-        border-left: var(--snake-box-size) solid limegreen;
+        border-left: var(--snake-box-size) solid var(--snake-color);
     }
 
     100% {
-        border-left: 0px solid limegreen;
+        border-left: 0px solid var(--snake-color);
     }
 }
 
 @keyframes leftShrink {
     0% {
-        border-right: var(--snake-box-size) solid limegreen;
+        border-right: var(--snake-box-size) solid var(--snake-color);
     }
 
     100% {
-        border-right: 0px solid limegreen;
+        border-right: 0px solid var(--snake-color);
     }
 }
 
 @keyframes upShrink {
     0% {
-        border-bottom: var(--snake-box-size) solid limegreen;
+        border-bottom: var(--snake-box-size) solid var(--snake-color);
     }
 
     100% {
-        border-bottom: 0px solid limegreen;
+        border-bottom: 0px solid var(--snake-color);
     }
 }
 
 @keyframes downShrink {
     0% {
-        border-top: var(--snake-box-size) solid limegreen;
+        border-top: var(--snake-box-size) solid var(--snake-color);
     }
 
     100% {
-        border-top: 0px solid limegreen;
+        border-top: 0px solid var(--snake-color);
     }
 }

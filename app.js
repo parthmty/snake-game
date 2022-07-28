@@ -1,6 +1,7 @@
 'use strict';
 
 const snakeBoxes = document.querySelectorAll('main div');
+const score = document.getElementById('pts');
 const canvasBoxNumber = 20;
 const cornerBoxMapping = {
     up: {
@@ -98,20 +99,20 @@ const cornerUpBoxNumberList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
 const cornerDownBoxNumberList = [380, 381, 382, 383, 384, 385, 386, 387, 388, 389, 390, 391, 392, 393, 394, 395, 396, 397, 398, 399, 400];
 const cornerRightBoxNumberList = [19, 39, 59, 79, 99, 119, 139, 159, 179, 199, 219, 239, 259, 279, 299, 319, 339, 359, 379, 399];
 const cornerLeftBoxNumberList = [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300, 320, 340, 360, 380];
-let snakeLength = 4;
-let snakeTailMotionStack = ['rightShrink', 'rightShrink', 'rightShrink', 'rightShrink'];
-let snakeBoxIndexStack = [106, 107, 108, 109];
+let snakeLength = 2;
+let snakeTailMotionStack = ['rightShrink', 'rightShrink'];
+let snakeBoxIndexStack = [106, 107];
 let currentDirection = 'right';
 let foodCount = 0;
 let foodBoxIndex = 0;
 
-setInterval(() => {
+const gameLoop = setInterval(() => {
     if (!foodCount) {
         generateFood();
         foodCount++;
     }
     moveSnake();
-}, 200);
+}, 150);
 
 
 function moveSnake() {
@@ -123,11 +124,18 @@ function moveSnake() {
         if (cornerUpBoxNumberList.includes(snakeBoxIndexStack[snakeLength - 1])) {
             nextSnakeBoxIndex = cornerBoxMapping['up'][snakeBoxIndexStack[snakeLength - 1]];
         }
+        if (snakeBoxIndexStack.includes(nextSnakeBoxIndex)) {
+            gameOver();
+            return;
+        }
+
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('upGrow');
         if (foodBoxIndex === nextSnakeBoxIndex) {
             foodCount = 0;
             snakeLength++;
+            score.textContent = parseInt(score.textContent) + 1;
+
 
             snakeTailMotionStack.push('downShrink');
             snakeTailMotionStack[snakeLength - 1] = 'downShrink';
@@ -147,11 +155,16 @@ function moveSnake() {
         if (cornerDownBoxNumberList.includes(snakeBoxIndexStack[snakeLength - 1])) {
             nextSnakeBoxIndex = cornerBoxMapping['down'][snakeBoxIndexStack[snakeLength - 1]];
         }
+        if (snakeBoxIndexStack.includes(nextSnakeBoxIndex)) {
+            gameOver();
+            return;
+        }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('downGrow');
         if (foodBoxIndex === nextSnakeBoxIndex) {
             foodCount = 0;
             snakeLength++;
+            score.textContent = parseInt(score.textContent) + 1;
 
             snakeTailMotionStack.push('upShrink');
             snakeTailMotionStack[snakeLength - 1] = 'upShrink';
@@ -171,11 +184,16 @@ function moveSnake() {
         if (cornerLeftBoxNumberList.includes(snakeBoxIndexStack[snakeLength - 1])) {
             nextSnakeBoxIndex = cornerBoxMapping['left'][snakeBoxIndexStack[snakeLength - 1]];
         }
+        if (snakeBoxIndexStack.includes(nextSnakeBoxIndex)) {
+            gameOver();
+            return;
+        }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('leftGrow');
         if (foodBoxIndex === nextSnakeBoxIndex) {
             foodCount = 0;
             snakeLength++;
+            score.textContent = parseInt(score.textContent) + 1;
 
             snakeTailMotionStack.push('rightShrink');
             snakeTailMotionStack[snakeLength - 1] = 'rightShrink';
@@ -195,11 +213,16 @@ function moveSnake() {
         if (cornerRightBoxNumberList.includes(snakeBoxIndexStack[snakeLength - 1])) {
             nextSnakeBoxIndex = cornerBoxMapping['right'][snakeBoxIndexStack[snakeLength - 1]];
         }
+        if (snakeBoxIndexStack.includes(nextSnakeBoxIndex)) {
+            gameOver();
+            return;
+        }
         snakeBoxes[nextSnakeBoxIndex].removeAttribute('class');
         snakeBoxes[nextSnakeBoxIndex].classList.add('rightGrow');
         if (foodBoxIndex === nextSnakeBoxIndex) {
             foodCount = 0;
             snakeLength++;
+            score.textContent = parseInt(score.textContent) + 1;
 
             snakeTailMotionStack.push('leftShrink');
             snakeTailMotionStack[snakeLength - 1] = 'leftShrink';
@@ -223,8 +246,18 @@ function generateFood() {
     snakeBoxes[randomNumber].classList.add('food');
 }
 
+function gameOver() {
+    score.textContent = 0;
+    snakeBoxIndexStack.slice(0, snakeLength - 2).forEach((ind) => {
+        snakeBoxes[ind].removeAttribute('class');
+    })
+    snakeLength = 2;
+    snakeBoxIndexStack = snakeBoxIndexStack.slice(-2);
+    snakeTailMotionStack = snakeTailMotionStack.slice(-2);
+}
 
-// When User presses any Arrow Keys
+
+// Arrow Keys Control
 // -------------------------------------------------
 
 document.addEventListener('keydown', (e) => {
